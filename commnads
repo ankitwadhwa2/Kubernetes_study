@@ -1,0 +1,39 @@
+kubectl get pods
+kubectl describe pod <podname>
+kubectl get nodes
+
+-------------------------'
+
+ReplicationController
+and
+ReplicaSet
+
+To Create the replication controller
+$ kubectl create -f rc-definition.yaml
+To list all the replication controllers
+$ kubectl get replicationcontroller
+To list pods that are launch by the replication controller
+$ kubectl get pods
+
+To Create the replicaset
+
+$ kubectl create -f replicaset-definition.yaml
+To list all the replicaset
+
+$ kubectl get replicaset
+To list pods that are launch by the replicaset
+
+$ kubectl get pods
+-----------------
+SCALE replicaset----------------
+-----------------
+$ kubectl apply -f replicaset-definition.yaml
+Second way is to use kubectl scale command.
+$ kubectl scale --replicas=6 -f replicaset-definition.yaml
+Third way is to use kubectl scale command with type and name
+$ kubectl scale --replicas=6 replicaset myapp-replicaset
+
+-----------------
+kubectl edit replicaset new-replica-set
+-------------------
+
