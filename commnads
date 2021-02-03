@@ -36,4 +36,21 @@ $ kubectl scale --replicas=6 replicaset myapp-replicaset
 -----------------
 kubectl edit replicaset new-replica-set
 -------------------
+kubectl get all
+------------------------------------------------
+#Container Dry run
+
+kubectl run nginx --image=nginx --dry-run=client -o yaml
+
+#Deployment commands
+
+kubectl create deployment --image=nginx nginx
+
+#For Dry run
+
+kubectl create deployment --image=nginx nginx --dry-run=client -o yaml
+
+#To create definition file from dry run
+
+kubectl create deployment --image=nginx nginx --dry-run=client -o yaml > file.yml
 
