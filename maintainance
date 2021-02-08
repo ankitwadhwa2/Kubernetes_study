@@ -1,0 +1,82 @@
+#Command to check in pod
+kubectl -n elastic-stack exec -it app cat /log/app.log
+
+Application Maintainance
+--------------------------
+Rollout and Rollbacks
+
+Rolling update
+Recreate Update
+
+kubectl create -f deploymentfile.yml
+
+kubectl get deployments
+
+kubectl apply -f deploymentfile.yml
+
+#set image - in this case depplyment file is not updated
+kubectl set image deployment/my-app-deployment nginx1.19.1
+
+kubectl rollout status deployment/my-app-deployment
+
+kubectl rollout history  deployment/my-app-deployment
+
+kubectl rollout undo deployment/my-app-deployment
+
+controlplane $ cat curl-test.sh 
+for i in {1..35}; do
+   kubectl exec --namespace=kube-public curl -- sh -c 'test=`wget -qO- -T 2  http://webapp-service.default.svc.cluster.local:8080/info 2>&1` && echo "$test OK" || echo "Failed"';
+   echo ""
+donecontrolplane $ 
+
+------------------------------
+
+Configure Application Commands
+------------------------------
+
+controlplane $ cat Dockerfile
+FROM python:3.6-alpine
+
+RUN pip install flask
+
+COPY . /opt/
+
+EXPOSE 8080
+
+WORKDIR /opt
+
+ENTRYPOINT ["python", "app.py"]controlplane $ 
+
+----------------------------------
+
+controlplane $ cat Dockerfile2 
+FROM python:3.6-alpine
+
+RUN pip install flask
+
+COPY . /opt/
+
+EXPOSE 8080
+
+WORKDIR /opt
+
+ENTRYPOINT ["python", "app.py"]
+
+CMD ["--color", "red"]controlplane $ cat webapp-color-pod.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp-green
+  labels:
+      name: webapp-green
+spec:
+  containers:
+  - name: simple-webapp
+    image: kodekloud/webapp-color
+    command: ["--color","green"]controlplane $ 
+
+/////////////////////////////////////////////////////
+
+Config maps
+
+to set environment varibales using env or envFrom
