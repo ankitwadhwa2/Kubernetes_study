@@ -80,3 +80,56 @@ spec:
 Config maps
 
 to set environment varibales using env or envFrom
+
+
+CLUSTER MAINTAINANCE
+#####################
+Node based
+----------
+kubectl drain node
+kubectl cordon node
+kubectl uncordon node
+
+
+kubectl drain node01 --ignore-daemonsets
+
+
+-------------------------
+
+CLUSTER UPGRADE
+############
+Lates 3 version are being supported by K8S
+
+kubectl upgrade plan
+kubectl upgrade apply
+
+Master goes down does not mean worker will down
+Upgrade nodes one by one
+Kubeadm does not upgrade kubelet
+Upgrade version of kubeadm first then cluster
+
+apt-get update -y kubeadm=1.12.01
+kubeadm upgrade apply v1.12.01
+### It shows version of kubelets on each node, not the version of api server
+
+Then update kubelet on master
+
+-----------------------------------
+CLUSTER
+BACKUP and RESTORE
+###################
+
+Resource Configuration(or use some tools)
+kubectl get all --all-namespaces -o yaml > file.yml
+
+ETCD cluster
+
+in etcd we define where all the resources will be created
+
+take snapshot of etcd cluster and recreate when required
+kubectl logs etcd-controlplane -n kube-system or check the ETCD pod kubectl describe pod etcd-controlplane -n kube-system
+
+
+ETCDCTL_API=3 etcdctl  --data-dir /var/lib/etcd-from-backup snapshot restore /opt/snapshot-pre-boot.db
+
+
