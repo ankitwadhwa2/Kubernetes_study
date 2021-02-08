@@ -1,0 +1,14 @@
+Kube Monitoring
+
+Kubectl top nodes
+kubectl top pod
+
+Application Monitoring
+
+kubectl logs -f <pod name>  <container name>
+---- mention container name if multiple containers in pod-def file
+
+
+
+kubectl get events
+kubectl logs <object name>
